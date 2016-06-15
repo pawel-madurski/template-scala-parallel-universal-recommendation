@@ -478,6 +478,7 @@ class URAlgorithm(val ap: URAlgorithmParams)
       val json =
         (
           ("size" -> numRecs) ~
+            ("_source"-> ("include" -> "id")) ~
             ("query"->
               ("bool"->
                 ("should"-> should) ~
