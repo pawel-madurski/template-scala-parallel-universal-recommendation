@@ -1,10 +1,10 @@
 name := "template-scala-parallel-universal-recommendation"
 
-version := "0.3.0-snapshot"
+version := "0.3.0"
 
 organization := "io.prediction"
 
-val mahoutVersion = "0.11.1"
+val mahoutVersion = "0.11.2"
 
 libraryDependencies ++= Seq(
   "io.prediction"    %% "core" % pioVersion.value % "provided",
@@ -25,8 +25,8 @@ libraryDependencies ++= Seq(
   "org.elasticsearch" % "elasticsearch-spark_2.10" % "2.1.2"
     exclude("org.apache.spark", "spark-catalyst_2.10")
     exclude("org.apache.spark", "spark-sql_2.10"),
-  "org.json4s" %% "json4s-native" % "3.2.10"
-).map(_.exclude("org.apache.lucene","lucene-core")).map(_.exclude("org.apache.lucene","lucene-analyzers-common"))
+  "org.json4s" %% "json4s-native" % "3.2.10")
+  .map(_.exclude("org.apache.lucene","lucene-core")).map(_.exclude("org.apache.lucene","lucene-analyzers-common"))
 
 resolvers += Resolver.mavenLocal
 
