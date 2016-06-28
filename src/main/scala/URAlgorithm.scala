@@ -58,6 +58,7 @@ object defaultURAlgorithmParams {
   val DefaultBackfillFieldName = "popRank"
   val DefaultBackfillType = "popular"
   val DefaultBackfillDuration = "3650 days" // for all time
+  val DefaultMinScore = 0.0001f
 }
 
 /* default values must be set in code not the case class declaration
@@ -131,7 +132,8 @@ case class URAlgorithmParams(
   expireDateName: Option[String] = None,
   // used as the subject of a dateRange in queries, specifies the name of the item property
   dateName: Option[String] = None,
-  seed: Option[Long] = None) // seed is not used presently
+  seed: Option[Long] = None,
+  minScore: Option[Float] = None) // seed is not used presently
   extends Params //fixed default make it reproducible unless supplied
 
 /** Creates cooccurrence, cross-cooccurrence and eventually content correlators with
@@ -474,11 +476,13 @@ class URAlgorithm(val ap: URAlgorithmParams)
                |}""".stripMargin)))
       } else None
 
+      val minScore = ap.minScore.getOrElse(defaultURAlgorithmParams.DefaultMinScore)
 
       val json =
         (
           ("size" -> numRecs) ~
             ("_source"-> ("include" -> "id")) ~
+            ("min_score"-> minScore) ~
             ("query"->
               ("bool"->
                 ("should"-> should) ~
