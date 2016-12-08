@@ -524,7 +524,7 @@ class URAlgorithm(val ap: URAlgorithmParams)
   /** Get similar items for an item, these are already in the action correlators in ES */
   def getBiasedSimilarItems(query: Query): Seq[BoostableCorrelators] = {
     if (query.item.nonEmpty) {
-      val m = EsClient.getSource(ap.indexName, ap.typeName, query.item.get)
+      val m = EsClient.getSource(query.indexName.getOrElse(ap.indexName), ap.typeName, query.item.get)
 
       if (m != null) {
         val itemEventBias = query.itemBias.getOrElse(ap.itemBias.getOrElse(1f))
